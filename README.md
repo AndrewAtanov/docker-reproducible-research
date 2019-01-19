@@ -4,6 +4,7 @@
 * Build image.
   
   `build -t <image_name> .`
+ 
   `docker run -v "<path-to-save-results>:/example/results" <image_name>`
  
  * Download image from Docker hub.
