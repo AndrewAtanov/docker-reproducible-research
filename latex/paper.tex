@@ -1,0 +1,73 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{hyperref}
+
+\topmargin 0.0cm
+\oddsidemargin 0.2cm
+\textwidth 16cm 
+\textheight 21cm
+\footskip 1.0cm
+
+\title{Real NVP with Gaussian Mixture Prior} 
+
+\author
+{Andrei Atanov\\
+\\
+\normalsize{Skolkovo Institute of Science and Technology}\\
+\\
+\normalsize{E-mail:  andrei.atanov@skolkovotech.ru.}
+}
+
+\begin{document} 
+
+\maketitle 
+
+\section{Model}
+I follow Normalizing Flows framework [2] for density estimation problem via maximum likelihood:
+\begin{equation*}
+\mathcal{L}(\theta) = -\sum_{i=1}^N \log p_Z(f_{\theta}(x_i)) + \log \left| \dfrac{\partial f_{\theta}(x_i)}{\partial x_i} \right|
+\end{equation*}
+where $\{x_i\}_{i=1}^N$ -- training data and $f_{theta}$ -- invertible function. As a flow $f_{\theta}$ I used Real NVP architecture [1].
+
+For Gaussian Mixture prior I used the following $p_Z$:
+\begin{equation*}
+p_Z(z) = \sum_{i=1}^{K} \pi_k \mathcal{N}(z|\mu_j, \Sigma_j)
+\end{equation*}
+Parameters $\{\pi, \mu, \Sigma, \theta\}$ of the prior distribution and normilizing flow are traind via EM algorithm [3].
+\section{Experimental Results}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figs/training_curves}
+    \caption{Real NVP flow likelihood for train and test sets}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figs/plot_1}
+    \caption{Vizualization of trained flow with 1 components in prior, which corresponds to the vanilla real nvp}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figs/plot_2}
+    \caption{Vizualization of trained flow with 2 components in prior}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figs/plot_3}
+    \caption{Vizualization of trained flow with 3 components in prior}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figs/plot_4}
+    \caption{Vizualization of trained flow with 4 components in prior}
+\end{figure}
+
+\begin{thebibliography}{9}
+\bibitem{realnvp} Dinh, Laurent and Sohl-Dickstein, Jascha and Bengio, Samy (2016)  \emph{Density estimation using Real NVP} arXiv preprint arXiv:1605.08803 
+\bibitem{nf} Rezende, Danilo Jimenez and Mohamed, Shakir (2015) \emph{Variational inference with normalizing flows} arXiv preprint arXiv:1505.05770
+\bibitem{bishop} Bishop, Christopher M. (2006) \emph{Pattern Recognition and Machine Learning (Information Science and Statistics)} Springer-Verlag
+\end{thebibliography}
+
+\end{document}
